@@ -31,7 +31,7 @@ jobs:
                   touch .env
                   echo "TEST_VAR=${{ secrets.TEST_VAR }}" >> .env
                   npm install
-                  firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}" --only functions:action-test-79ad7
+                  firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}" --only functions
             
 
             # Deploying the functions to firebase

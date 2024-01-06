@@ -24,23 +24,26 @@ jobs:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - uses: actions/checkout@v2
 
+            - name: Add envs
+              run: |
+                echo "TEST_ENV=${{ secrets.TEST_ENV }}" >> functions/.env
+
             # Runs a single command using the runners shell
             # And of course we need to goto our functions folder to deploy
             - name: Install npm packages
               run: |
+                  npm install firebase
                   cd functions
                   npm install
+                  firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}" --only functions
             
-            # - name: Add envs
-            #   run: |
-            #     echo "TEST_ENV=${{ secrets.TEST_ENV }}" >> functions/.env
 
             # Deploying the functions to firebase
-            - name: Deploy to Firebase
-              uses: w9jds/firebase-action@master
-              with:
-                  args: deploy --project=action-test-79ad7 --only functions
-              env:
-                  FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-                  TEST_ENV: ${{ secrets.TEST_ENV }}
+            # - name: Deploy to Firebase
+            #   uses: w9jds/firebase-action@master
+            #   with:
+            #       args: deploy --project=action-test-79ad7 --only functions
+            #   env:
+            #       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+            #       TEST_ENV: ${{ secrets.TEST_ENV }}
 

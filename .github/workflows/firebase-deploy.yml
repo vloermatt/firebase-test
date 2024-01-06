@@ -28,6 +28,10 @@ jobs:
               run: |
                   cd functions
                   npm install
+            
+            - name: Add envs
+              run: |
+                echo "TEST_ENV=${{ secrets.TEST_ENV }}" >> functions/.env
 
             # Deploying the functions to firebase
             - name: Deploy to Firebase
@@ -36,5 +40,4 @@ jobs:
                   args: deploy --project=action-test-79ad7 --only functions
               env:
                   FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-                  TEST_ENV: ${{ secrets.TEST_ENV }}
 

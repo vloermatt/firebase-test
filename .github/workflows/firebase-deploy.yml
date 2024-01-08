@@ -37,25 +37,42 @@ jobs:
     deploy-dev:
         # The type of runner that the job will run on
         runs-on: ubuntu-latest
+        # Add "id-token" with the intended permissions.
+        permissions:
+          contents: 'read'
+          id-token: 'write'
 
-        # Steps represent a sequence of tasks that will be executed as part of the job
         steps:
-            # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-            - uses: actions/checkout@v2
+        - id: 'auth'
+          uses: 'google-github-actions/auth@v2'
+          with:
+            project_id: 'action-test-2-e3b67'
+            workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
 
-            # Runs a single command using the runners shell
-            # And of course we need to goto our functions folder to deploy
-            - name: Install npm packages
-              run: |
-                  npm i -g firebase-tools@13.0.2
-                  cd functions
-                  npm install
+        - name: 'Set up Cloud SDK'
+          uses: 'google-github-actions/setup-gcloud@v2'
+          with:
+            version: '>= 363.0.0'
 
-            # Deploying the functions to firebase
-            - name: Deploy to Firebase
-              env: 
-                TEST_VAR: ${{ secrets.TEST_VAR }}
-              run: |
-                firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}" --only functions
+        - name: 'Use gcloud CLI'
+          run: 'gcloud info'
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        - uses: actions/checkout@v2
+
+        # Runs a single command using the runners shell
+        # And of course we need to goto our functions folder to deploy
+        - name: Install npm packages
+          run: |
+              npm i -g firebase-tools@13.0.2
+              cd functions
+              npm install
+
+        # Deploying the functions to firebase
+        - name: Deploy to Firebase
+          env: 
+            TEST_VAR: ${{ secrets.TEST_VAR }}
+          run: |
+            firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}" --only functions
+
             
 

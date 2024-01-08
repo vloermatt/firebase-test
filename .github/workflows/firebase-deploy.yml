@@ -34,11 +34,11 @@ jobs:
         # Steps represent a sequence of tasks that will be executed as part of the job
         steps:
             # # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-            # - uses: actions/checkout@v2
-            # - id: 'auth'
-            #   uses: 'google-github-actions/auth@v2'
-            #   with:
-            #     credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+            - uses: actions/checkout@v2
+            - id: 'auth'
+              uses: 'google-github-actions/auth@v2'
+              with:
+                credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
 
             # - name: 'Set up Cloud SDK'
             #   uses: 'google-github-actions/setup-gcloud@v2'

@@ -43,7 +43,7 @@ jobs:
                 version: '>= 363.0.0'
 
             - name: 'Set secrets'
-              run: sh set-envs.sh
+              run: bash set-envs.sh
 
             # Runs a single command using the runners shell
             # And of course we need to goto our functions folder to deploy

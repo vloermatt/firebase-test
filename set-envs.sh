@@ -20,7 +20,7 @@ for secret in "${env_list[@]}"; do
     else
         # Secret does not exist, create first version
         echo "creating $secret..."
-        echo -n "${{ secrets[$secret] }}" | gcloud secrets create $secret \
+        echo -n "$$secret" | gcloud secrets create $secret \
                 --replication-policy="automatic" \
                 --data-file=-
     fi

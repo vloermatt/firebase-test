@@ -21,21 +21,7 @@ jobs:
         steps:
         # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
         - uses: actions/checkout@v2
-        - id: 'auth'
-          uses: 'google-github-actions/auth@v2'
-          with:
-            credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
-
-        - name: 'Set up Cloud SDK'
-          uses: 'google-github-actions/setup-gcloud@v2'
-          with:
-            version: '>= 363.0.0'
-
-        - name: 'Use gcloud CLI'
-          run: |
-            echo -n "${{ secrets.TEST_VAR }}" | gcloud secrets create test-secret2 \
-            --replication-policy="automatic" \
-            --data-file=-
+        
           
     # This workflow contains a single job called "build"
     deploy-dev:
@@ -46,6 +32,21 @@ jobs:
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - uses: actions/checkout@v2
+            - id: 'auth'
+              uses: 'google-github-actions/auth@v2'
+              with:
+                credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+
+            - name: 'Set up Cloud SDK'
+              uses: 'google-github-actions/setup-gcloud@v2'
+              with:
+                version: '>= 363.0.0'
+
+            - name: 'Use gcloud CLI'
+              run: |
+                echo -n "${{ secrets.TEST_VAR }}" | gcloud secrets create test-secret2 \
+                --replication-policy="automatic" \
+                --data-file=-
 
             # Runs a single command using the runners shell
             # And of course we need to goto our functions folder to deploy

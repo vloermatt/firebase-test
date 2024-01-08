@@ -28,7 +28,7 @@ exports.printEnv = onRequest(async (req, res) => {
     const val = process.env.TEST_VAR
     // send back the env
     res.json({
-        result: val
+        results: val
     })
 })
 

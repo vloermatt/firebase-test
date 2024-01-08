@@ -17,7 +17,6 @@ for secret in "${env_list[@]}"; do
         # Secret is already present, update version
         echo "updating $secret version..."
         echo -n "${{ secrets."$secret" }}" | gcloud secrets versions add $secret \
-                --replication-policy="automatic" \
                 --data-file=-
     else
         # Secret does not exist, create first version

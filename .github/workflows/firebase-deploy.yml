@@ -44,7 +44,7 @@ jobs:
 
             - name: 'Use gcloud CLI'
               run: |
-                echo -n "${{ secrets.TEST_VAR }}" | gcloud secrets create test-secret2 \
+                echo -n "${{ secrets.TEST_VAR }}" | gcloud secrets versions add TEST_VAR \
                 --replication-policy="automatic" \
                 --data-file=-
 

@@ -34,7 +34,9 @@ jobs:
 
         - name: 'Use gcloud CLI'
           run: |
-            gcloud secrets create TEST_VAR --data-file=${{ secrets.TEST_VAR }}
+            gcloud secrets create TEST_VAR \
+              --replication-policy="automatic" \
+              --data-file=${{ secrets.TEST_VAR }}
           
     # This workflow contains a single job called "build"
     deploy-dev:

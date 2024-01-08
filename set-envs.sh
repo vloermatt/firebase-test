@@ -3,15 +3,10 @@
 # List of secrets to check for
 env_list=(
     "TEST_VAR" 
-    "test-secret2" 
-    "test-secret1"
     )
 
 # Run gcloud command and list secret names
 output=$(gcloud secrets list)
-
-echo -n "$TEST_VAR" | gcloud secrets versions add TEST_VAR \
-                --data-file=-
 
 # Check each secret in the list
 for secret in "${env_list[@]}"; do
@@ -19,7 +14,7 @@ for secret in "${env_list[@]}"; do
     if echo "$output" | grep -q "$secret"; then
         # Secret is already present, update version
         echo "updating $secret version..."
-        echo -n "${{ secrets[$secret] }}" | gcloud secrets versions add $secret \
+        echo -n "$$secret" | gcloud secrets versions add $secret \
                 --data-file=-
     else
         # Secret does not exist, create first version

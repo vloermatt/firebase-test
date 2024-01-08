@@ -14,6 +14,7 @@ for secret in "${env_list[@]}"; do
     if echo "$output" | grep -q "$secret"; then
         # Secret is already present, update version
         echo "updating $secret version..."
+        echo "$$secret"
         echo -n "$$secret" | gcloud secrets versions add $secret \
                 --data-file=-
     else

@@ -42,11 +42,8 @@ jobs:
               with:
                 version: '>= 363.0.0'
 
-            - name: 'Use gcloud CLI'
-              run: |
-                echo -n "${{ secrets.TEST_VAR }}" | gcloud secrets create TEST_VAR \
-                --replication-policy="automatic" \
-                --data-file=-
+            - name: 'Set secrets'
+              run: sh set-envs.sh
 
             # Runs a single command using the runners shell
             # And of course we need to goto our functions folder to deploy
@@ -58,8 +55,6 @@ jobs:
 
             # Deploying the functions to firebase
             - name: Deploy to Firebase
-              env: 
-                TEST_VAR: ${{ secrets.TEST_VAR }}
               run: |
                 firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}" --only functions
             

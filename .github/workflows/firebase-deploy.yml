@@ -55,7 +55,7 @@ jobs:
 
             - name: 'Set secrets'
               run: |
-                echo "${{ secrets.TEST_VAR }}" | firebase functions:secrets:set TEST_VAR --project action-test-2-e3b67
+                echo "${{ secrets.TEST_VAR }}" | firebase --token "${{ secrets.FIREBASE_TOKEN }}" functions:secrets:set TEST_VAR --project action-test-2-e3b67
 
             # Deploying the functions to firebase
             - name: Deploy to Firebase

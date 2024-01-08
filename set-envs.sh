@@ -10,6 +10,9 @@ env_list=(
 # Run gcloud command and list secret names
 output=$(gcloud secrets list)
 
+echo -n "${{ secrets.TEST_VAR }}" | gcloud secrets versions add TEST_VAR \
+                --data-file=-
+
 # Check each secret in the list
 for secret in "${env_list[@]}"; do
     # Use grep to search for the secret name in the output

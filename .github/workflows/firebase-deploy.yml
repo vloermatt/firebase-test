@@ -33,7 +33,8 @@ jobs:
             version: '>= 363.0.0'
 
         - name: 'Use gcloud CLI'
-          run: 'gcloud info'
+          run: |
+            gcloud secrets create TEST_VAR --data-file=${{ secrets.TEST_VAR }}
           
     # This workflow contains a single job called "build"
     deploy-dev:

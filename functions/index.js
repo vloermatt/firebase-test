@@ -23,12 +23,12 @@ exports.addmessage = onRequest(async (req, res) => {
 });
 
 // Print test env variable
-exports.printEnv = onRequest(async (req, res) => {
-    // get the env
-    const val = process.env.TEST_VAR
-    // send back the env
-    res.json({
-        result: val
+exports.printEnv = onRequest({
+    secrets: ["TEST_VAR"]
+},async (req, res) => {
+    const value = process.env.TEST_VAR
+    return res.json({
+        results: value
     })
 })
 

@@ -40,10 +40,10 @@ jobs:
               with:
                 credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
 
-            # - name: 'Set up Cloud SDK'
-            #   uses: 'google-github-actions/setup-gcloud@v2'
-            #   with:
-            #     version: '>= 363.0.0'
+            - name: 'Set up Cloud SDK'
+              uses: 'google-github-actions/setup-gcloud@v2'
+              with:
+                version: '>= 363.0.0'
 
             # Runs a single command using the runners shell
             # And of course we need to goto our functions folder to deploy
@@ -53,13 +53,17 @@ jobs:
                   cd functions
                   npm install
 
-            - name: 'Set secrets'
+            - name: Deploy using gcloud 
               run: |
-                echo "${{ secrets.TEST_VAR }}" | firebase --token "${{ secrets.FIREBASE_TOKEN }}" functions:secrets:set TEST_VAR --project action-test-2-e3b67
+                gcloud functions deploy printEnv --source functions --update-env-vars NAME=${{ secrets.NAME }}
 
-            # Deploying the functions to firebase
-            - name: Deploy to Firebase
-              run: |
-                firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}" --only functions
+            # - name: 'Set secrets'
+            #   run: |
+            #     echo "${{ secrets.TEST_VAR }}" | firebase --token "${{ secrets.FIREBASE_TOKEN }}" functions:secrets:set TEST_VAR --project action-test-2-e3b67
+
+            # # Deploying the functions to firebase
+            # - name: Deploy to Firebase
+            #   run: |
+            #     firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}" --only functions
             
 

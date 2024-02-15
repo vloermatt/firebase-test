@@ -1,0 +1,22 @@
+name: Firebase function deployment
+on:
+  push: 
+      branches: [main, develop]
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        environment: ${{ github.ref_name }}
+        steps:
+            - uses: actions/checkout@v2
+            - name: Install npm packages
+              run: |
+                  npm i -g firebase-tools@13.0.2
+                  cd functions
+                  npm install
+
+            # Deploying the functions to firebase
+            - name: Deploy to Firebase
+              run: firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}" --only functions --project ${{ vars.PROJECT_ID  }}
+            
+

@@ -28,7 +28,9 @@ exports.addmessage = onRequest(async (req, res) => {
 
 // Print test env variable
 exports.printEnv = onRequest(async (req, res) => {
-    const value = await secretmanagerClient.getSecret("TEST_VAR");
+    const value = await secretmanagerClient.getSecret({
+        name: "TEST_VAR"
+    });
     return res.json({
         results: value
     })

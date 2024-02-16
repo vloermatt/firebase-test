@@ -6,6 +6,10 @@ const {onDocumentCreated} = require("firebase-functions/v2/firestore");
 // The Firebase Admin SDK to access Firestore.
 const {initializeApp} = require("firebase-admin/app");
 const {getFirestore} = require("firebase-admin/firestore");
+const {SecretManagerServiceClient} = require('@google-cloud/secret-manager').v1;
+
+// Instantiates a client
+const secretmanagerClient = new SecretManagerServiceClient();
 
 initializeApp();
 
@@ -23,10 +27,8 @@ exports.addmessage = onRequest(async (req, res) => {
 });
 
 // Print test env variable
-exports.printEnv = onRequest({
-    secrets: ["TEST_VAR"]
-},async (req, res) => {
-    const value = process.env.TEST_VAR
+exports.printEnv = onRequest(async (req, res) => {
+    const value = await secretmanagerClient.getSecret("TEST_VAR");
     return res.json({
         results: value
     })

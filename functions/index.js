@@ -24,7 +24,7 @@ exports.addmessage = onRequest(async (req, res) => {
 
 // Print test env variable
 exports.printEnv = onRequest({
-    secrets: ["TEST_VAR"]
+    // secrets: ["TEST_VAR"]
 },async (req, res) => {
     const value = process.env.TEST_VAR
     return res.json({
